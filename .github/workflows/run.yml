@@ -1,0 +1,28 @@
+name: ⚡️ Update Status ⚡️
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Clone the Repo 🌀
+        uses: actions/checkout@master
+        with:
+          repository: filteradmin/botstatus
+      - name: Install Requirements 📀
+        run: |
+          pip install --upgrade pip
+          pip install wget pytz telethon python-dotenv
+      - name: Run the User Client 🏃‍♂️
+        run: |
+          python3 main.py
+        env:
+          CONFIG: ${{ secrets.CONFIG }}
