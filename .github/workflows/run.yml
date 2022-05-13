@@ -10,12 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python 🐍
-        continue-on-error: true
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - name: Clone the Repo 🌀
-        continue-on-error: true
         uses: actions/checkout@master
         with:
           repository: filteradmin/botstatus
