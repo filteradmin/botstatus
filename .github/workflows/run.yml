@@ -7,22 +7,23 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.4
     steps:
-      - name: Set up Python 🐍
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Clone the Repo 🌀
-        uses: actions/checkout@master
-        with:
-          repository: filteradmin/botstatus
-      - name: Install Requirements 📀
+
+      - name: Install Requirements
         continue-on-error: true
         run: |
           pip install --upgrade pip
           pip install wget pytz telethon python-dotenv
-      - name: Run the User Client 🏃‍♂️
+
+      - name: Run the User Client
         continue-on-error: true
         run: |
           python3 main.py
