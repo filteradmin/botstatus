@@ -16,25 +16,25 @@ logging.basicConfig(
 )
 
 if os.path.exists("config.env"):
-    subprocess.run(["rm", "-rf", "config.env"])
+    os.remove("config.env")
 subprocess.run(["wget", "-q", "-O", "config.env", os.environ["CONFIG"]])
 
 
 async def S1BOTS():
-    def getConfig(name: str):
-        return os.environ[name]
-    try:
-        load_dotenv("config.env")
-        bots = getConfig("BOTS").split()
-        user_bot = TelegramClient(
+  def getConfig(name: str):
+      return os.environ[name]
+  try:
+      load_dotenv("config.env")
+      bots = getConfig("BOTS").split()
+      user_bot = TelegramClient(
             StringSession(getConfig("SESSION")),
             int(getConfig("APP_ID")),
             getConfig("API_HASH")
         )
-        print("[INFO] Starting client...")
-        await user_bot.start()
-    except Exception as e:
-        print(f"[ERROR] {str(e)}")
+  except Exception as e:
+      print(f"[ERROR] {str(e)}")
+  print("[INFO] Starting client...")
+  async with user_bot:
     try:
         await user_bot.edit_message(
             int(getConfig("CHANNEL_ID")),
@@ -82,7 +82,7 @@ async def S1BOTS():
     print(f"[INFO] Checks since last restart - {c}")
     edit_text += f"\n`{dt.now(tz).strftime('%d %B %Y')} - {dt.now(tz).strftime('%H:%M:%S')} [BST]`"
     await user_bot.edit_message(int(getConfig("CHANNEL_ID")), int(getConfig("MESSAGE_ID")), edit_text)
-    return os.system(f"kill -9 {os.getpid()} && python3 main.py")
+    os.system(f"kill -9 {os.getpid()} && python3 main.py")
 
 
 if __name__ == "__main__":
